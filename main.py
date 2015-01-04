@@ -64,15 +64,17 @@ class game:
 			print cml
 			for st in self.stats:
 				print float(st.count(cml))/len(st)
-	def createProbablitySummary(self):
-		pass
 	def printBoard(self):
+		print "forward modifiers",self.forwardMods
+		print "backwards modifiers",self.backwardMods
 		print self.baseBoard
 	def copyBaseBoard(self):
 		self.baseBoard = copy.deepcopy(self.board)
 	def clearBoard(self):
 		self.baseBoard = [[] for i in range(20)]
 		self.board = [[] for i in range(20)]
+		self.forwardMods = []
+		self.backwardMods = []
 myGame = game()
 while(1):
 	x = raw_input(">>>:").split()
@@ -100,6 +102,12 @@ while(1):
 				break
 		myGame.remainingMoves = x[1::]		
 		print myGame.remainingMoves
+	if x[0] == "print":
+		myGame.printBoard()
+	if x[0] == "forward":
+		myGame.forwardMods = [int(i) for i in x[1::]]
+	if x[0] == "back":
+		myGame.backwardMods = [int(i) for i in x[1::]]
 	
 
 #set board
