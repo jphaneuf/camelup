@@ -1,22 +1,4 @@
-#inputs
-#camel positions
-#number of spaces
-#camels that have already rolled
-#space modifiers
-
-#yellow,white,green,orange,blue
-
-#inbetween
-#rank camels
-#evaluate every possible dice outcome
-
-#moving rules
-#move all camels on top
-
-
-#outputs
-#probability table for each camel
-
+import itertools
 class game:
 	def __init__(self):
 		self.board =[[] for i in range(10)]
@@ -59,12 +41,12 @@ class game:
 		for space in self.board[::-1]:
 			for cml in space:
 				rank = rank+[cml]
-		print rank
 		return rank
-		
-		
 	def getAllDiceRolls(self):
-		pass
+		colors = itertools.permutations(self.remainingMoves)
+		print colors
+		#[color,space(1-3)]
+		
 	def createProbablitySummary(self):
 		pass
 	def printBoard(self):
@@ -72,3 +54,4 @@ class game:
 myGame = game()
 myGame.printBoard()
 myGame.rankBoard()
+myGame.getAllDiceRolls()
