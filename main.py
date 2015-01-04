@@ -5,20 +5,21 @@ class game:
 		self.board =[[] for i in range(20)]
 		self.camels = ["blue","yellow","orange","green","white"]
 		self.modifiers = ["forward","backward"]
-		self.forwardMods = [5]
-		self.backwardMods = [3]
+		self.forwardMods = []
+		self.backwardMods = []
 		self.remainingMoves = self.camels
+		self.remainingMoves = ["orange","yellow"]
 		#Test sequences
 		self.insertCamels("blue",1,True)
-		self.insertCamels("orange",1,True)
-		self.insertCamels("yellow",1,False)
-		self.insertCamels("white",2,True)
-		self.insertCamels("green",4,True)
-		print self.board
-		self.moveCamel("blue",2)
-		####
+		self.insertCamels("orange",5,True)
+		self.insertCamels("yellow",5,False)
+		self.insertCamels("white",5,True)
+		self.insertCamels("green",5,True)
+		###
 		self.baseBoard = copy.deepcopy(self.board)
-		print "base",self.baseBoard
+		
+		####Stats:
+		self.stats = [[] for i in range(len(self.camels))]
 	def insertCamels(self,camels,position,top):
 		if type(camels) == type("a"):#string
 			camels = [camels]
@@ -47,16 +48,24 @@ class game:
 				rank = rank+[cml]
 		return rank
 	def getAllDiceRolls(self):
+		self.stats = [[] for i in range(len(self.camels))]
 		colors = list(itertools.permutations(self.remainingMoves))
 		l = len(self.remainingMoves)
 		v = [1]*l+[2]*l+[3]*l
 		numberRolls =list(set(list(itertools.permutations(v,l))))
-		for c in colors[0:2]:
-			for nv in numberRolls[0:4]:
+		for c in colors:
+			for nv in numberRolls:
 				self.board = copy.deepcopy(self.baseBoard)#reset
 				for i,j in zip(c,nv):
 					self.moveCamel(i,j)
-				print self.rankBoard()			
+				rank = self.rankBoard()
+				for i in range(len(rank)):
+					print "#",i,self.stats[i],rank[i]
+					self.stats[i].append(rank[i])		
+		for cml in self.camels:
+			print cml
+			for st in self.stats:
+				print float(st.count(cml))/len(st)
 	def createProbablitySummary(self):
 		pass
 	def printBoard(self):
