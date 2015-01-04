@@ -8,7 +8,7 @@ class game:
 		self.forwardMods = []
 		self.backwardMods = []
 		self.remainingMoves = self.camels
-		self.remainingMoves = ["orange","yellow"]
+		self.remainingMoves = ["orange","yellow","blue","green","white"]
 		#Test sequences
 		self.insertCamels("blue",1,True)
 		self.insertCamels("orange",5,True)
@@ -16,8 +16,7 @@ class game:
 		self.insertCamels("white",5,True)
 		self.insertCamels("green",5,True)
 		###
-		self.baseBoard = copy.deepcopy(self.board)
-		
+		self.baseBoard = copy.deepcopy(self.board)	
 		####Stats:
 		self.stats = [[] for i in range(len(self.camels))]
 	def insertCamels(self,camels,position,top):
@@ -60,7 +59,6 @@ class game:
 					self.moveCamel(i,j)
 				rank = self.rankBoard()
 				for i in range(len(rank)):
-					print "#",i,self.stats[i],rank[i]
 					self.stats[i].append(rank[i])		
 		for cml in self.camels:
 			print cml
@@ -69,6 +67,40 @@ class game:
 	def createProbablitySummary(self):
 		pass
 	def printBoard(self):
-		print self.board
+		print self.baseBoard
+	def copyBaseBoard(self):
+		self.baseBoard = copy.deepcopy(self.board)
+	def clearBoard(self):
+		self.baseBoard = [[] for i in range(20)]
+		self.board = [[] for i in range(20)]
 myGame = game()
-myGame.getAllDiceRolls()
+while(1):
+	x = raw_input(">>>:").split()
+	for i in range(len(x)):
+		if x[i] == "o": x[i] = "orange"
+		if x[i] == "g": x[i] = "green"
+		if x[i] == "b": x[i] = "blue"
+		if x[i] == "w": x[i] = "white"
+		if x[i] == "y": x[i] = "yellow"
+	if x[0] == "board" and len(x)==11:
+		myGame.clearBoard()
+		for c,s in zip(x[1::2],x[2::2]):
+			if not c in myGame.camels:
+				print "fuck you"
+				break
+			myGame.insertCamels(c,int(s),True)
+		myGame.copyBaseBoard()
+		myGame.printBoard()
+	if x[0] == "run":
+		myGame.getAllDiceRolls()	
+	if x[0] == "remaining":
+		for c in x[1::]:
+			if not c in myGame.camels:
+				print "fuck you"
+				break
+		myGame.remainingMoves = x[1::]		
+		print myGame.remainingMoves
+	
+
+#set board
+#update remaining Moves
