@@ -43,8 +43,13 @@ class game:
 				rank = rank+[cml]
 		return rank
 	def getAllDiceRolls(self):
-		colors = itertools.permutations(self.remainingMoves)
-		print colors
+		colors = list(itertools.permutations(self.remainingMoves))
+		l = len(self.remainingMoves)
+		v = [1]*l+[2]*l+[3]*l
+		numberRolls =list(set(list(itertools.permutations(v,l))))
+		print colors[0]
+		print numberRolls[0]
+				
 		#[color,space(1-3)]
 		
 	def createProbablitySummary(self):
