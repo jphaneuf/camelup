@@ -22,6 +22,8 @@ class game:
 		self.board =[[] for i in range(10)]
 		self.camels = ["blue","yellow","orange","green","white"]
 		self.modifiers = ["forward","backward"]
+		self.forwardMods = [4]
+		self.backwardMods = [5]
 		#Test sequences
 		self.insertCamels("blue",1,True)
 		self.insertCamels("orange",1,True)
@@ -41,10 +43,12 @@ class game:
 					camelStack = [self.board[i].pop(0) for j in range(i+1)] 
 					currentPosition = s
 					break
-		self.insertCamels(camelStack,currentPosition+nSpaces,True)
-					 
-		#move camel with camels on top
-		#check modifier
+		if (currentPosition+nSpaces) in self.forwardMods:
+			self.insertCamels(camelStack,currentPosition+nSpaces+1,True)
+		elif (currentPosition+nSpaces) in self.backwardMods:
+			self.insertCamels(camelStack,currentPosition+nSpaces-1,False)
+		else:
+			self.insertCamels(camelStack,currentPosition+nSpaces,True)
 	def getAllDiceRolls(self):
 		pass
 	def createProbablitySummary(self):
