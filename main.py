@@ -22,25 +22,28 @@ class game:
 		self.board =[[] for i in range(10)]
 		self.camels = ["blue","yellow","orange","green","white"]
 		self.modifiers = ["forward","backward"]
-		self.forwardMods = [4]
-		self.backwardMods = [5]
+		self.forwardMods = [5]
+		self.backwardMods = [3]
 		#Test sequences
 		self.insertCamels("blue",1,True)
 		self.insertCamels("orange",1,True)
 		self.insertCamels("yellow",1,False)
+		self.insertCamels("white",2,True)
 		print self.board
 		self.moveCamel("blue",2)
 	def insertCamels(self,camels,position,top):
+		if type(camels) == type("a"):#string
+			camels = [camels]
 		if top: #general case
-			self.board[position].insert(0,camels)
+			self.board[position] = camels +self.board[position]
 		else:   #if moving back from modifier
-			self.board[position].append(camels)
+			self.board[position] = self.board[position]+camels
 	def moveCamel(self,camel,nSpaces):
 		#find camel
 		for s in range(len(self.board)):
 			for i in range(len(self.board[s])):
 				if camel == self.board[s][i]:
-					camelStack = [self.board[i].pop(0) for j in range(i+1)] 
+					camelStack = [self.board[i].pop(0) for j in range(i+1)]
 					currentPosition = s
 					break
 		if (currentPosition+nSpaces) in self.forwardMods:
